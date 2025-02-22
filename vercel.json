@@ -11,5 +11,17 @@
         "destination": "/about",
         "permanent": true
       }
+      ,
+      {
+        "source": "/What We Do.html",
+        "destination": "/whatwedo",
+        "permanent": true
+      }
+      ,
+      {
+        "source": "/register.html",
+        "destination": "/register",
+        "permanent": true
+      }
     ]
   }
