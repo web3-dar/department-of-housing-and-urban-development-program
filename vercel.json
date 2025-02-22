@@ -2,22 +2,12 @@
     "redirects": [
       {
         "source": "/index.html",
-        "destination": "/#",
+        "destination": "/",
         "permanent": true
       },
       {
-        "source": "/about.html",
-        "destination": "/#about",
-        "permanent": true
-      },
-      {
-        "source": "/What We Do.html",
-        "destination": "/#whatwedo",
-        "permanent": true
-      },
-      {
-        "source": "/register.html",
-        "destination": "/#register",
+        "source": "register.html",
+        "destination": "#/register",
         "permanent": true
       }
     ]
