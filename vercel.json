@@ -8,19 +8,19 @@
       ,
       {
         "source": "/about.html",
-        "destination": "/about",
+        "destination": "about",
         "permanent": true
       }
       ,
       {
         "source": "/What We Do.html",
-        "destination": "/whatwedo",
+        "destination": "whatwedo",
         "permanent": true
       }
       ,
       {
         "source": "/register.html",
-        "destination": "/register",
+        "destination": "register",
         "permanent": true
       }
     ]
